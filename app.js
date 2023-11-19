@@ -23,7 +23,7 @@ mongoose.connect(dataBase, {useUnifiedTopology : true,
 
 app.use(
     cors({
-      origin: ["https://notebook-client.netlify.app/"],
+      origin: ["https://notebook-client.netlify.app"],
       methods: ["GET", "POST", "PUT", "DELETE"],
       credentials: true,
     })
