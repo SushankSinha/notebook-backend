@@ -68,7 +68,7 @@ export const authenticate = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];    
     if(token === null || typeof(token) === "undefined"){
         response.status(401).json({message: "Unauthorized Access!"});
-    }
+    } else if (token === null && typeof(token) === "undefined"){
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
       console.log(err)
@@ -77,6 +77,7 @@ export const authenticate = (req, res, next) => {
     req.user = user;
     next();
   })
+}
 }
 
 router.get("/dashboard/:id", authenticate, async (req, res) => {
