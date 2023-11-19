@@ -67,7 +67,7 @@ export const authenticate = (req, res, next) => {
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
-      return res.status(403).json({ message: "Forbidden" });
+      return res.status(403).json({ message: "Forbidden", err });
     }
     req.user = user;
     next();
