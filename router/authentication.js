@@ -63,12 +63,16 @@ router.post("/login", async (req, res) => {
 });
 
 export const authenticate = (req, res, next) => {
-  const token = req.cookies.token;
 
+  const authHeader = req.headers['Authorization'];  
+    const token = authHeader && authHeader.split(' ')[1];    
+    if(token === null || typeof(token) === "undefined"){
+        response.status(401).json({message: "Unauthorized Access!"});
+    }
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
       console.log(err)
-      return res.status(403).json({ message: "Forbidden", err });
+      return res.status(403).json({ message: "Forbidden"});
     }
     req.user = user;
     next();
