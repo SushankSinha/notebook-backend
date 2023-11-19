@@ -62,10 +62,8 @@ router.post("/login", async (req, res) => {
   }
 });
 
-export const authenticate = async(req, res, next) => {
-  const token = await req.cookies.token;
-
-  if(!token === undefined){
+export const authenticate = (req, res, next) => {
+  const token = req.cookies.token;
 
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
@@ -73,9 +71,8 @@ export const authenticate = async(req, res, next) => {
     }
     req.user = user;
     next();
-  });
+  })
 }
-};
 
 router.get("/dashboard/:id", authenticate, async (req, res) => {
       const id = req.params.id;
