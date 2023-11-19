@@ -68,7 +68,7 @@ export const authenticate = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1];    
     if(token === null || typeof(token) === "undefined"){
         res.status(401).json({message: "Unauthorized Access!"});
-    } else if (token === null && typeof(token) === "undefined"){
+    } else if (!token === null && typeof(token) !== "undefined"){
   jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
     if (err) {
       console.log(err)
