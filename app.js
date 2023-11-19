@@ -5,6 +5,7 @@ import cors from 'cors';
 import task from './Task/task.js';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import { authenticate } from './router/authentication.js';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(auth);
+app.use(authenticate)
 app.use(task);
 
 app.listen(PORT, () => {
