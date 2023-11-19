@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
           { expiresIn: "24h" }
         );
 
-        res.cookie("token", token, { withCredentials: true });
+        res.cookie("token", token, { withCredentials: true, secure : true, httpOnly : false });
 
         res
           .status(200)
