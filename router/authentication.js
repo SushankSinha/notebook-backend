@@ -79,16 +79,9 @@ export const authenticate = (req, res, next) => {
 };
 
 router.get("/dashboard/:id", authenticate, async (req, res) => {
-  const id = req.params.id;
-  try {
-    const user = await User.findById({ _id: id });
-    if (user) {
+
       res.status(200).json({ message: "Welcome to Dashboard" });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
+})
 
 router.put("/reset_password/new_password", async (req, res) => {
   
