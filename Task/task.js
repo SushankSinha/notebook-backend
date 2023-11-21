@@ -1,12 +1,11 @@
 import express from 'express'
 import Task from './taskSchema.js';
 import User from '../models/userSchema.js';
-import { authenticate } from '../router/authentication.js';
 const router = express.Router();
 
 // Route to get all Tasks
 
-router.get('/task/:userId', authenticate, async (req, res) => {
+router.get('/task/:userId', async (req, res) => {
   const userId = req.params.userId;
   const user = User.findById({_id:userId})
   if(user){
@@ -21,7 +20,7 @@ router.get('/task/:userId', authenticate, async (req, res) => {
 
 // Route to get one Task
 
-router.get('/task/:userId/:id', authenticate, async (req, res) => {
+router.get('/task/:userId/:id', async (req, res) => {
   const userId = req.params.userId;
   const user = User.findById({_id:userId})
   if(user){
@@ -37,7 +36,7 @@ router.get('/task/:userId/:id', authenticate, async (req, res) => {
 
 // Route to add a new Task
 
-router.post('/task/:userId/add-task', authenticate, async (req, res) => {
+router.post('/task/:userId/add-task', async (req, res) => {
   const userId = req.params.userId;
   const user = User.findById({_id:userId})
   if(user){
@@ -56,7 +55,7 @@ router.post('/task/:userId/add-task', authenticate, async (req, res) => {
 }
 });
 
-router.put('/task/:userId/edit/:id', authenticate, async (req, res) => {
+router.put('/task/:userId/edit/:id', async (req, res) => {
 
   const userId = req.params.userId;
   const user = User.findById({_id:userId})
@@ -78,7 +77,7 @@ router.put('/task/:userId/edit/:id', authenticate, async (req, res) => {
   }
 });
 
-router.delete('/task/:userId/delete/:id', authenticate, async (req, res) => {
+router.delete('/task/:userId/delete/:id', async (req, res) => {
   const userId = req.params.userId;
   const user = User.findById({_id:userId})
   if(user){

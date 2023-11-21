@@ -62,22 +62,22 @@ router.post("/login", async (req, res) => {
   }
 });
 
-export const authenticate = (req, res, next) => { 
-  const token = req.cookies.token  
-    if(!token){
-        res.status(401).json({message: "Unauthorized Access!"});
-    }
-  jwt.verify(token, process.env.SECRET_KEY, async(err, user) => {
-    if (err) {
-      console.log(err)
-      return res.status(403).json({ message: "Forbidden"});
-    }
-    req.user = user;
-    next();
-  })
-}
+// export const authenticate = (req, res, next) => { 
+//   const token = req.cookies.token  
+//     if(!token){
+//         res.status(401).json({message: "Unauthorized Access!"});
+//     }
+//   jwt.verify(token, process.env.SECRET_KEY, async(err, user) => {
+//     if (err) {
+//       console.log(err)
+//       return res.status(403).json({ message: "Forbidden"});
+//     }
+//     req.user = user;
+//     next();
+//   })
+// }
 
-router.get("/dashboard/:id", authenticate, async (req, res) => {
+router.get("/dashboard/:id",  async (req, res) => {
       res.status(200).json({ message: "Welcome to Dashboard" });
 })
 
