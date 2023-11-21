@@ -44,7 +44,7 @@ router.post("/login", async (req, res) => {
           { expiresIn: "24h" }
         );
 
-        res.cookie("token", token, { withCredentials: true, secure : true, httpOnly:true});
+        res.cookie("token", token, { withCredentials: true, secure : true, httpOnly:false});
 
         res
           .status(200)
@@ -62,14 +62,12 @@ router.post("/login", async (req, res) => {
   }
 });
 
-export const authenticate = (req, res, next) => {
-
-  const authHeader = req.headers['Authorization'];  
-    const token = authHeader && authHeader.split(' ')[1];    
-    if(token === null || typeof(token) === "undefined"){
+export const authenticate = (req, res, next) => { 
+  const token = req.cookies.token  
+    if(!token){
         res.status(401).json({message: "Unauthorized Access!"});
-    } else if (!token === null && typeof(token) !== "undefined"){
-  jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+    }
+  jwt.verify(token, process.env.SECRET_KEY, async(err, user) => {
     if (err) {
       console.log(err)
       return res.status(403).json({ message: "Forbidden"});
@@ -77,7 +75,6 @@ export const authenticate = (req, res, next) => {
     req.user = user;
     next();
   })
-}
 }
 
 router.get("/dashboard/:id", authenticate, async (req, res) => {
