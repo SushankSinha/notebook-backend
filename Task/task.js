@@ -145,32 +145,38 @@ router.get('/task/:userId/:id', async (req, res) => {
 
 router.post('/task/:userId/add-task', async (req, res) => {
   const userId = req.params.userId;
-  const user = User.findById({_id:userId})
-  console.log(user.email)
+  const user = User.findById({_id:userId});
+
   if(user){
   const {title, content, date, category, userId} = req.body;
-
-          function calculateDateDifference(inputDateString) {
-            const parts = inputDateString.split("-");
-            const inputDate = new Date(parts[0], parts[1] - 1, parts[2]); 
-
-            const currentDate = new Date();
-          
-            const timeDifference = inputDate.getTime() - currentDate.getTime();
-            const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-          
-            return daysDifference;
-          }
-          
-          const difference = calculateDateDifference(date);
-
-          sendMailVerification(user.name, user.email, difference, title);
 
   try {
               
           const taskDetails = new Task({title, content, date, category, userId});
 
-          await taskDetails.save();            
+          const newTask = await taskDetails.save();
+
+          if(newTask){
+
+            function calculateDateDifference(inputDateString) {
+              const parts = inputDateString.split("-");
+              const inputDate = new Date(parts[0], parts[1] - 1, parts[2]); 
+  
+              const currentDate = new Date();
+            
+              const timeDifference = inputDate.getTime() - currentDate.getTime();
+              const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            
+              return daysDifference;
+            }
+            
+            const difference = calculateDateDifference(date);
+
+            console.log(user, difference)
+  
+            sendMailVerification(user.name, user.email, difference, title);
+  
+          }            
           
           res.status(201).json({message : "Task Saved!", taskDetails});         
 
