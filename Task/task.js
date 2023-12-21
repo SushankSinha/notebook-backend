@@ -11,6 +11,9 @@ const OAuth2 = google.auth.OAuth2;
 
 const sendMailVerification = async (name, email, difference, title) => {
   try {
+
+    if(difference > 0){
+
     let mailTransporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -26,31 +29,72 @@ const sendMailVerification = async (name, email, difference, title) => {
       },
     });
 
-    var mailOptions;
-
-    if(difference>0){
-      mailOptions = {
+    const mailOptions = {
         from: process.env.EMAIL,
         to: email,
         subject: "Gentle Reminder for your Note!",
         html: `<p>Greetings ${name}! You just created a note 😍. This is a gentle reminder mail regarding your upcoming scheduled note with Title -"${title}". ${difference} days to go! Don't procrastinate 🥱. Keep grinding 💪</p>`,
       };
-      
-    }else if(difference == 0){
-      mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
-        subject: "Last day Reminder for your Note!",
-        html: `<p>Greetings ${name}! This is last day reminder mail regarding your scheduled note with Title -"${title}". Today is the last day 😲 to complete it! Keep grinding 💪</p>`,
-      };
-    }else if(difference<0){
-      mailOptions = {
-        from: process.env.EMAIL,
-        to: email,
-        subject: "Not-so-Gentle Reminder for your Note!",
-        html: `<p>Greetings ${name}! This is a reminder mail regarding a note with Title -"${title}". You have selected a date from past 😭. If you want to, just update the date. Keep grinding 💪</p>`,
-      };
-    }
+
+    mailTransporter.sendMail(mailOptions, function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email has been sent");
+      }
+    })
+  }else if(difference == 0){
+    let mailTransporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        type: "OAuth2",
+        user: process.env.EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: process.env.ACCESS_TOKEN,
+        expires: 3599,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Last day Reminder for your Note!",
+      html: `<p>Greetings ${name}! This is last day reminder mail regarding your scheduled note with Title -"${title}". Today is the last day 😲 to complete it! Keep grinding 💪</p>`,
+    };
+
+    mailTransporter.sendMail(mailOptions, function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email has been sent");
+      }
+    })      
+  }else if(difference == 0){
+    let mailTransporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        type: "OAuth2",
+        user: process.env.EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: process.env.ACCESS_TOKEN,
+        expires: 3599,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL,
+      to: email,
+      subject: "Not-so-Gentle Reminder for your Note!",
+      html: `<p>Greetings ${name}! This is a reminder mail regarding a note with Title -"${title}". You have selected a date from past 😭. If you want to, just update the date. Keep grinding 💪</p>`,
+    };
 
     mailTransporter.sendMail(mailOptions, function (error) {
       if (error) {
@@ -59,6 +103,7 @@ const sendMailVerification = async (name, email, difference, title) => {
         console.log("Email has been sent");
       }
     });
+  } 
   } catch (error) {
     console.log(error.message);
   }
