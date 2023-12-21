@@ -170,6 +170,7 @@ router.post('/task/:userId/add-task', async (req, res) => {
           }
           
           const difference = calculateDateDifference(date);
+          console.log(date, difference, user.email);
           sendMailVerification(user.name, user.email, difference, title);
           
 
