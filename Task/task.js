@@ -1,7 +1,68 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 import express from 'express'
 import Task from './taskSchema.js';
 import User from '../models/userSchema.js';
 const router = express.Router();
+import nodemailer from "nodemailer";
+import { google } from "googleapis";
+
+const OAuth2 = google.auth.OAuth2;
+
+const sendMailVerification = async (name, email, difference, title) => {
+  try {
+    let mailTransporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        type: "OAuth2",
+        user: process.env.EMAIL,
+        clientId: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        refreshToken: process.env.REFRESH_TOKEN,
+        accessToken: process.env.ACCESS_TOKEN,
+        expires: 3599,
+      },
+    });
+
+    let mailOptions;
+
+    if(difference>0){
+      mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: "Gentle Reminder for your Note!",
+        html: `<p>Greetings ${name}! You just created a note 😍. This is a gentle reminder mail regarding your upcoming scheduled note with Title -"${title}". ${difference} days to go! Don't procrastinate 🥱. Keep grinding 💪</p>`,
+      };
+    }else if(difference == 0){
+      mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: "Last day Reminder for your Note!",
+        html: `<p>Greetings ${name}! This is last day reminder mail regarding your scheduled note with Title -"${title}". Today is the last day 😲 to complete it! Keep grinding 💪</p>`,
+      };
+    }else if(difference<0){
+      mailOptions = {
+        from: process.env.EMAIL,
+        to: email,
+        subject: "Not-so-Gentle Reminder for your Note!",
+        html: `<p>Greetings ${name}! This is a reminder mail regarding a note with Title -"${title}". You have selected a date from past 😭. If you want to, just update the date. Keep grinding 💪</p>`,
+      };
+    }
+
+    mailTransporter.sendMail(mailOptions, function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email has been sent");
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
 // Route to get all Tasks
 
@@ -48,7 +109,26 @@ router.post('/task/:userId/add-task', async (req, res) => {
 
           await taskDetails.save();            
           
-          res.status(201).json({message : "Task Saved!", taskDetails})
+          res.status(201).json({message : "Task Saved!", taskDetails});
+
+          if(taskDetails){
+          function calculateDateDifference(inputDateString) {
+            const parts = inputDateString.split("-");
+            const inputDate = new Date(parts[2], parts[0] - 1, parts[1]); 
+
+            const currentDate = new Date();
+          
+            const timeDifference = inputDate.getTime() - currentDate.getTime();
+            const daysDifference = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+          
+            return daysDifference;
+          }
+          
+          const difference = calculateDateDifference(date);
+          sendMailVerification(user.name, user.email, difference, title);
+        }
+          
+
           } catch(err){
       console.log(err)
   }
