@@ -26,7 +26,7 @@ const sendMailVerification = async (name, email, difference, title) => {
       },
     });
 
-    let mailOptions;
+    var mailOptions;
 
     if(difference>0){
       mailOptions = {
@@ -35,13 +35,7 @@ const sendMailVerification = async (name, email, difference, title) => {
         subject: "Gentle Reminder for your Note!",
         html: `<p>Greetings ${name}! You just created a note 😍. This is a gentle reminder mail regarding your upcoming scheduled note with Title -"${title}". ${difference} days to go! Don't procrastinate 🥱. Keep grinding 💪</p>`,
       };
-      mailTransporter.sendMail(mailOptions, function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email has been sent");
-        }
-      });
+      
     }else if(difference == 0){
       mailOptions = {
         from: process.env.EMAIL,
@@ -49,13 +43,6 @@ const sendMailVerification = async (name, email, difference, title) => {
         subject: "Last day Reminder for your Note!",
         html: `<p>Greetings ${name}! This is last day reminder mail regarding your scheduled note with Title -"${title}". Today is the last day 😲 to complete it! Keep grinding 💪</p>`,
       };
-      mailTransporter.sendMail(mailOptions, function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email has been sent");
-        }
-      });
     }else if(difference<0){
       mailOptions = {
         from: process.env.EMAIL,
@@ -63,22 +50,15 @@ const sendMailVerification = async (name, email, difference, title) => {
         subject: "Not-so-Gentle Reminder for your Note!",
         html: `<p>Greetings ${name}! This is a reminder mail regarding a note with Title -"${title}". You have selected a date from past 😭. If you want to, just update the date. Keep grinding 💪</p>`,
       };
-      mailTransporter.sendMail(mailOptions, function (error) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log("Email has been sent");
-        }
-      });
     }
 
-    // mailTransporter.sendMail(mailOptions, function (error) {
-    //   if (error) {
-    //     console.log(error);
-    //   } else {
-    //     console.log("Email has been sent");
-    //   }
-    // });
+    mailTransporter.sendMail(mailOptions, function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email has been sent");
+      }
+    });
   } catch (error) {
     console.log(error.message);
   }
