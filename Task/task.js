@@ -111,7 +111,6 @@ router.post('/task/:userId/add-task', async (req, res) => {
           
           res.status(201).json({message : "Task Saved!", taskDetails});
 
-          if(taskDetails){
           function calculateDateDifference(inputDateString) {
             const parts = inputDateString.split("-");
             const inputDate = new Date(parts[2], parts[0] - 1, parts[1]); 
@@ -126,7 +125,6 @@ router.post('/task/:userId/add-task', async (req, res) => {
           
           const difference = calculateDateDifference(date);
           sendMailVerification(user.name, user.email, difference, title);
-        }
           
 
           } catch(err){
