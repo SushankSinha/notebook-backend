@@ -33,13 +33,14 @@ const sendMailVerification = async (name, email, difference, title) => {
         from: process.env.EMAIL,
         to: email,
         subject: "📢 Gentle Reminder for your Note!",
-        html: `<p style = "font-size:large">Dear <strong>${name}</strong>,</p>
-        <br/>
-        <p style = "font-size:large">Greetings of the day! <br/> 
-        You have just created a note 😍. <br />
-        This is a reminder mail regarding your upcoming scheduled note with the Title -<strong>"${title}"</strong>.<br /> 
-        ${difference} days to go! Don't procrastinate 🥱. <br/>
+        html: `<p style = "font-size:large">Dear <strong>${name}</strong>,</p><br/>
+        <p style = "font-size:large">Greetings of the day! <br/> <br/>
+        You have just created a note 😍. <br /><br/>
+        This is a reminder mail regarding your upcoming scheduled note with the Title -<strong>"${title}"</strong>.<br /> <br/>
+        ${difference} days to go! Don't procrastinate 🥱. <br/><br/>
         Keep grinding 💪<br/>
+        <br/>
+        <br/>
       
         NOTE BOOK APP</p>`,
       };
@@ -71,13 +72,12 @@ const sendMailVerification = async (name, email, difference, title) => {
       from: process.env.EMAIL,
       to: email,
       subject: "📢📢 Last day Reminder for your Note!",
-      html: `<p style = "font-size:large">Dear <strong>${name}</strong>,</p>
-      <br/>
-      <p style = "font-size:large">Greetings of the day!<br/>
-      You have just created a note 😍. <br/>
-      This is reminder mail regarding your scheduled note with the Title -<strong>"${title}"</strong>.<br/>
-      Last day is about to end 😲. <br/>
-      Keep grinding 💪<br/>
+      html: `<p style = "font-size:large">Dear <strong>${name}</strong>,</p><br/>
+      <p style = "font-size:large">Greetings of the day!<br/><br/>
+      You have just created a note 😍. <br/><br/>
+      This is reminder mail regarding your scheduled note with the Title -<strong>"${title}"</strong>.<br/><br/>
+      Last day is about to end 😲. <br/><br/>
+      Keep grinding 💪<br/><br/><br/>
       
       NOTE BOOK APP</p>`,
     };
@@ -109,13 +109,12 @@ const sendMailVerification = async (name, email, difference, title) => {
       from: process.env.EMAIL,
       to: email,
       subject: "📢📢📢 Not-so-Gentle Reminder for your Note!",
-      html: `<p style = "font-size:large">Dear <strong>${name}</strong>,</p>
-      <br/>
-      <p style = "font-size:large">Greetings of the day!<br/>
-      You have just created a note 😍 with the Title -<strong>"${title}"</strong>. <br/>
-      You have selected a date from past 😭. <br/>
-      If you want to, just update the date. <br/>
-      Keep grinding 💪<br/>
+      html: `<p style = "font-size:large">Dear <strong>${name}</strong>,</p><br/>
+      <p style = "font-size:large">Greetings of the day!<br/><br/>
+      You have just created a note 😍 with the Title -<strong>"${title}"</strong>. <br/><br/>
+      You have selected a date from past 😭. <br/><br/>
+      If you want to, just update the date. <br/><br/>
+      Keep grinding 💪<br/><br/><br/>
       
       NOTE BOOK APP
       </p>`,
