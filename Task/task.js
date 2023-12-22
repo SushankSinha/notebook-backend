@@ -145,7 +145,7 @@ router.get('/task/:userId/:id', async (req, res) => {
 
 router.post('/task/:userId/add-task', async (req, res) => {
   const userId = req.params.userId;
-  const user = User.findById({_id:userId});
+  const user = await User.findById({_id:userId});
 
   if(user){
   const {title, content, date, category, userId} = req.body;
@@ -171,8 +171,6 @@ router.post('/task/:userId/add-task', async (req, res) => {
             }
             
             const difference = calculateDateDifference(date);
-
-            console.log(user, difference)
   
             sendMailVerification(user.name, user.email, difference, title);
   
