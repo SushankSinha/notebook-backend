@@ -32,8 +32,10 @@ const sendMailVerification = async (name, email, difference, title) => {
     const mailOptions = {
         from: process.env.EMAIL,
         to: email,
-        subject: "Gentle Reminder for your Note!",
-        html: `<p>Greetings ${name}! You just created a note 😍. This is a gentle reminder mail regarding your upcoming scheduled note with Title -"${title}". ${difference} days to go! Don't procrastinate 🥱. Keep grinding 💪</p>`,
+        subject: "📢 Gentle Reminder for your Note!",
+        html: `<p>Dear ${name},</p>
+        <br/>
+        <p style = "font-size:large">Greetings of the day! You just created a note 😍. This is a gentle reminder mail regarding your upcoming scheduled note with Title -<strong>"${title}"</strong>. ${difference} days to go! Don't procrastinate 🥱. Keep grinding 💪</p>`,
       };
 
     mailTransporter.sendMail(mailOptions, function (error) {
@@ -62,8 +64,10 @@ const sendMailVerification = async (name, email, difference, title) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: "Last day Reminder for your Note!",
-      html: `<p>Greetings ${name}! This is last day reminder mail regarding your scheduled note with Title -"${title}". Today is the last day 😲 to complete it! Keep grinding 💪</p>`,
+      subject: "📢📢 Last day Reminder for your Note!",
+      html: `<p>Dear ${name},</p>
+      <br/>
+      <p style = "font-size:large">Greetings of the day! You just created a note 😍. This is reminder mail regarding your scheduled note with Title -<strong>"${title}"</strong>. Last day is about to end 😲. Keep grinding 💪</p>`,
     };
 
     mailTransporter.sendMail(mailOptions, function (error) {
@@ -92,8 +96,10 @@ const sendMailVerification = async (name, email, difference, title) => {
     const mailOptions = {
       from: process.env.EMAIL,
       to: email,
-      subject: "Not-so-Gentle Reminder for your Note!",
-      html: `<p>Greetings ${name}! This is a reminder mail regarding a note with Title -"${title}". You have selected a date from past 😭. If you want to, just update the date. Keep grinding 💪</p>`,
+      subject: "📢📢📢 Not-so-Gentle Reminder for your Note!",
+      html: `<p>Dear ${name},</p>
+      <br/>
+      <p style = "font-size:large">Greetings of the day! You just created a note 😍 with Title -<strong>"${title}"</strong>. You have selected a date from past 😭. If you want to, just update the date. Keep grinding 💪</p>`,
     };
 
     mailTransporter.sendMail(mailOptions, function (error) {
