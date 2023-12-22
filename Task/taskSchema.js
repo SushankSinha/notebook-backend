@@ -6,7 +6,10 @@ const taskSchema = new mongoose.Schema({
     date : String,
     category : String,
     userId : String,
-    status : String
+    status : {
+        type : Boolean,
+        default : false
+    }
 })
 
 const Task = mongoose.model('TASK', taskSchema);
