@@ -5,7 +5,8 @@ const taskSchema = new mongoose.Schema({
     content : String,
     date : String,
     category : String,
-    userId : String
+    userId : String,
+    status : String
 })
 
 const Task = mongoose.model('TASK', taskSchema);

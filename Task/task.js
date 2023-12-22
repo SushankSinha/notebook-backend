@@ -217,10 +217,10 @@ router.put('/task/:userId/edit/:id', async (req, res) => {
 
   const id = req.params.id;
 
-  const {title, content, date, category} = req.body;
+  const {title, content, date, category, status} = req.body;
 
     try {
-      const updatedTask = await Task.findByIdAndUpdate({_id:id}, { title, content, date, category, userId}, { new: true });
+      const updatedTask = await Task.findByIdAndUpdate({_id:id}, { title, content, date, category, userId, status}, { new: true });
       res.status(201).json({message : "Task Updated!", task: updatedTask});
       if (!updatedTask) {
         return res.status(404).json({ message: "Task not found" });
